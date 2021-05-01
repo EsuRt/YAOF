@@ -1,10 +1,11 @@
 name: Cleaning
 
 on:
-  schedule:
-    - cron: 1 1 * * 1
-  watch:
-    types: started
+  workflow_dispatch
+  # schedule:
+  #   - cron: 1 1 * * 1
+  # watch:
+  #   types: started
 
 jobs:
   
@@ -15,7 +16,7 @@ jobs:
     - name: Delete Older Releases
       uses: dev-drprasad/delete-older-releases@master
       with:
-        keep_latest: 9
+        keep_latest: 3
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
