@@ -14,6 +14,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
+      with:
+          ref: master
+          fetch-depth: 0
     - name: Show system
       run: |
         echo -e "Total CPU cores\t: $(nproc)"
@@ -49,7 +52,7 @@ jobs:
         df -h
     - name: Prepare Mixedwrt
       run: |
-        sudo chown -R runner:runner /home/runner/work/R2S-R4S-X86-OpenWrt
+        sudo chown -R runner:runner /home/runner/work/YAOF
         cp -r ./SCRIPTS/R4S/. ./SCRIPTS/
         cp -r ./SCRIPTS/. ./
         /bin/bash 01_get_ready.sh
@@ -71,8 +74,8 @@ jobs:
       run: |
         cd openwrt
         mv ../SEED/R4S/config.seed .config
+        echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
         make defconfig
-
     - name: Smart chmod
       run: |
         MY_Filter=$(mktemp)
@@ -82,7 +85,11 @@ jobs:
         find ./ -type f | grep -v -f ${MY_Filter} | xargs -s1024 file | grep 'executable\|ELF' | cut -d ':' -f1 | xargs -s1024 chmod 755
         rm -f ${MY_Filter}
         unset MY_Filter
-
+    - name: Cache
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        prefix: ${{ github.workspace }}/openwrt
     - name: Make Download
       run: |
         df -h
@@ -93,7 +100,7 @@ jobs:
         df -h
         cd openwrt
         let make_process=$(nproc)+2
-        make toolchain/install -j${make_process} V=s
+        make toolchain/install -j${make_process} || make toolchain/install -j${make_process} V=s
     - name: Compile Openwrt
       id: compileopenwrt
       continue-on-error: true
@@ -101,7 +108,7 @@ jobs:
         df -h
         cd openwrt
         let Make_Process=$(nproc)+2
-        make -j${Make_Process} V=w
+        make -j${Make_Process} || make -j${Make_Process} V=s
         echo $?
     - name: If Error
       if: steps.compileopenwrt.outcome == 'failure'
@@ -136,9 +143,9 @@ jobs:
       id: create_release
       uses: ncipollo/release-action@v1.8.0
       with:
-        name: OpenWRT-R2S-R4S-X86-21.02.0-RC4
+        name: OpenWRT-21.02.0
         allowUpdates: true
-        tag: 21.02.0-rc4
+        tag: 21.02.0
         commit: master
         replacesArtifacts: true
         token: ${{ secrets.workflow_token }}
