@@ -409,6 +409,9 @@ sed -i 's/16384/65535/g' package/kernel/linux/files/sysctl-nf-conntrack.conf
 #修改默认ip
 sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 
+#禁用passwall流量嗅探
+sed -i 's/sniffing = {enabled = true, destOverride = {"http", "tls"}}/sniffing = {enabled = false, destOverride = {"http", "tls"}}/g' package/new/luci-app-passwall/luasrc/model/cbi/passwall/api/gen_xray.lua
+
 # 生成默认配置及缓存
 rm -rf .config
 
