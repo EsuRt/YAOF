@@ -232,10 +232,10 @@ git clone --depth 1 https://github.com/jerrykuku/luci-app-jd-dailybonus.git pack
 git clone --depth 1 https://github.com/BoringCat/luci-app-mentohust package/new/luci-app-mentohust
 git clone --depth 1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk package/new/MentoHUST
 # Mosdns
-#svn co https://github.com/immortalwrt/packages/trunk/net/mosdns feeds/packages/net/mosdns
-#ln -sf ../../../feeds/packages/net/mosdns ./package/feeds/packages/mosdns
-#sed -i '/config.yaml/d' feeds/packages/net/mosdns/Makefile
-#sed -i '/mosdns-init-openwrt/d' feeds/packages/net/mosdns/Makefile
+# svn co https://github.com/immortalwrt/packages/trunk/net/mosdns feeds/packages/net/mosdns
+# ln -sf ../../../feeds/packages/net/mosdns ./package/feeds/packages/mosdns
+# sed -i '/config.yaml/d' feeds/packages/net/mosdns/Makefile
+# sed -i '/mosdns-init-openwrt/d' feeds/packages/net/mosdns/Makefile
 svn co https://github.com/QiuSimons/openwrt-mos/trunk/mosdns package/new/mosdns
 svn co https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns package/new/luci-app-mosdns
 # 流量监管
