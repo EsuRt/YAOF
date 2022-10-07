@@ -127,7 +127,7 @@ jobs:
         allowUpdates: true
         prerelease: false
         tag: ${{ env.latest_release }}
-        commit: 22.03
+        commit: master
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ./artifact/*.zip
