@@ -136,6 +136,8 @@ jobs:
         allowUpdates: true
         prerelease: false
         tag: ${{ env.latest_release }}
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
         commit: 23.05
         replacesArtifacts: true
         token: ${{ secrets.WORKFLOW_TOKEN }}
