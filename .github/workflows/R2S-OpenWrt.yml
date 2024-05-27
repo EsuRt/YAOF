@@ -136,7 +136,7 @@ jobs:
         allowUpdates: true
         prerelease: false
         tag: ${{ env.latest_release }}
-        commit: 23.05
+        commit: master
         replacesArtifacts: true
         token: ${{ secrets.WORKFLOW_TOKEN }}
         artifacts: ./artifact/*.zip
